@@ -10,6 +10,7 @@ class RocketChat:
         self.auth_token = None
         self.user_id = None
         urllib3.disable_warnings(urllib3.exceptions.InsecureRequestWarning)
+        self.login()
 
     def login(self):
         url = f"https://{self.base_url}/api/v1/login"
@@ -23,7 +24,6 @@ class RocketChat:
             print("Login failed!")
 
     def get_group_id(self, group_name):
-        self.login()
         url = f"https://{self.base_url}/api/v1/groups.list"
         headers = {
             "X-Auth-Token": self.auth_token,
@@ -63,7 +63,6 @@ class RocketChat:
             return []
 
     def send_message_to_group(self, room_id, message):
-        self.login()
         url = f"https://{self.base_url}/api/v1/chat.postMessage"
         payload = {"roomId": room_id, "text": message}
         headers = {

@@ -18,7 +18,7 @@ class CommitTargets:
         self.chat_api.send_message_to_group(group_id, message)
 
     def get_latest_commit_targets(self, group_id):
-        messages = self.chat_api.get_latest_messages_from_group(group_id, 10)  # Get latest 5 messages
+        messages = self.chat_api.get_latest_messages_from_group(group_id, 10)  # Get latest 10 messages
         for message in messages:
             user_targets = re.findall(r"@(\w+) : (\d+)/(\d+)", message)
             if user_targets:
