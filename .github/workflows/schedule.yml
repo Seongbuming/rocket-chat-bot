@@ -2,7 +2,7 @@ name: Schedule Workflow
 
 on:
   schedule:
-    - cron: '0 6 * * 1'  # Monday AM6
+    - cron: '0 21 * * 0'  # Monday AM6 KST
 
 jobs:
   check-commit-targets:
