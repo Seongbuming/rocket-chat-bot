@@ -3,6 +3,7 @@ name: Schedule Workflow
 on:
   schedule:
     - cron: '0 21 * * 0'  # Monday AM6 KST
+  workflow_dispatch:
 
 jobs:
   check-commit-targets:

@@ -4,13 +4,14 @@ import datetime
 class CommitTargets:
     def __init__(self, chat_api):
         self.chat_api = chat_api
+        self.commit_targets = {}
 
-    def send_commit_targets_message(self, group_id, commit_targets):
+    def send_commit_targets_message(self, group_id):
         message = "<{0} ~ {1}>\n".format(
             datetime.datetime.now().strftime('%Y년 %m월 %d일'),
             (datetime.datetime.now() + datetime.timedelta(days=4)).strftime('%Y년 %m월 %d일'))
 
-        for username, target in commit_targets.items():
+        for username, target in self.commit_targets.items():
             message += f"@{username} : 0/{target}\n"
         
         message += "커밋 후에 직접 수정해주세요(수정 권한 없을 시 연락)."
@@ -30,14 +31,14 @@ class CommitTargets:
         last_message = self.get_latest_commit_targets(group_id)
         user_targets = re.findall(r"@(\w+) : (\d+)/(\d+)", last_message)
 
-        commit_targets = {}
+        self.commit_targets = {}
         for username, completed, total in user_targets:
             completed = int(completed)
             total = int(total)
             
             if completed < total:
-                commit_targets[username] = total * 2
+                self.commit_targets[username] = total * 2
             else:
-                commit_targets[username] = 5
+                self.commit_targets[username] = 5
     
-        return commit_targets
+        return self.commit_targets
