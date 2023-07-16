@@ -1,5 +1,6 @@
 import re
 import datetime
+import pytz
 
 class CommitTargets:
     def __init__(self, chat_api):
@@ -7,9 +8,12 @@ class CommitTargets:
         self.commit_targets = {}
 
     def send_commit_targets_message(self, group_id):
+        now = datetime.datetime.now(pytz.timezone('Asia/Seoul'))
+        future = now + datetime.timedelta(days=4)
+        
         message = "<{0} ~ {1}>\n".format(
-            datetime.datetime.now().strftime('%Y년 %m월 %d일'),
-            (datetime.datetime.now() + datetime.timedelta(days=4)).strftime('%Y년 %m월 %d일'))
+            now.strftime('%Y년 %m월 %d일'),
+            future.strftime('%Y년 %m월 %d일'))
 
         for username, target in self.commit_targets.items():
             message += f"@{username} : 0/{target}\n"
