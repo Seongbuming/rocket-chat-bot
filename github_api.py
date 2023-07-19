@@ -1,18 +1,28 @@
 import requests
 
-class GitHubApi:
-    def __init__(self, access_token):
-        self.headers = {'Authorization': f'token {access_token}'}
+class GitHubAPI:
+    def __init__(self):
+        self.base_url = "https://api.github.com"
 
-    def get_commit_count(self, repo_owner, repo_name, author, since, until):
-        commit_count = 0
-        since_str = since.isoformat()+'Z'
-        until_str = until.isoformat()+'Z'
-        commit_url = f"https://api.github.com/repos/{repo_owner}/{repo_name}/commits?author={author}&since={since_str}&until={until_str}"
-        commit_data = requests.get(commit_url, headers=self.headers).json()
+    def get_commits(self, owner, repo, since, until):
+        url = f"{self.base_url}/repos/{owner}/{repo}/commits"
+        params = {
+            "since": since.isoformat(),
+            "until": until.isoformat()
+        }
+        response = requests.get(url, params=params)
+        response.raise_for_status()
+        
+        return response.json()
 
-        for commit in commit_data:
-            if commit['commit']['author']['name'] == author:
-                commit_count += 1
+    def get_commit_counts_by_author(self, owner, repo, since, until):
+        commits = self.get_commits(owner, repo, since, until)
+        commit_counts = {}
 
-        return commit_count
+        for commit in commits:
+            author = commit['commit']['author']['name']
+            if author not in commit_counts:
+                commit_counts[author] = 0
+            commit_counts[author] += 1
+
+        return commit_counts
