@@ -62,9 +62,12 @@ class RocketChat:
             print("Failed to get messages!", response.content)
             return []
 
-    def send_message_to_group(self, room_id, message):
+    def send_message_to_group(self, group_id, message):
         url = f"https://{self.base_url}/api/v1/chat.postMessage"
-        payload = {"roomId": room_id, "text": message}
+        payload = {
+            "roomId": group_id,
+            "text": message
+        }
         headers = {
             "Content-type": "application/json",
             "X-Auth-Token": self.auth_token,
@@ -75,3 +78,21 @@ class RocketChat:
             print("Message sent!")
         else:
             print("Failed to send message!")
+        
+    def update_message_from_group(self, group_id, message_id, message):
+        url = f"https://{self.base_url}/api/v1/chat.update"
+        payload = {
+            "roomId": group_id,
+            "msgId": message_id,
+            "text": message
+        }
+        headers = {
+            "Content-type": "application/json",
+            "X-Auth-Token": self.auth_token,
+            "X-User-Id": self.user_id
+        }
+        response = requests.post(url, data=json.dumps(payload), headers=headers, verify=False)
+        if response.status_code == 200:
+            print("Message updated!")
+        else:
+            print("Failed to update message!")
