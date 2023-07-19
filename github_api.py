@@ -10,7 +10,11 @@ class GitHubAPI:
             "since": since.isoformat(),
             "until": until.isoformat()
         }
-        response = requests.get(url, params=params)
+        headers = {
+            "Accept": "application/vnd.github+json",
+            "X-GitHub-Api-Version": "2022-11-28"
+        }
+        response = requests.get(url, params=params, headers=headers)
         response.raise_for_status()
         
         return response.json()
@@ -20,7 +24,11 @@ class GitHubAPI:
         commit_counts = {}
 
         for commit in commits:
-            author = commit['commit']['author']['name']
+            if commit['author']:
+                author = commit['author']['login']
+            else:
+                author = commit['commit']['author']['name']
+
             if author not in commit_counts:
                 commit_counts[author] = 0
             commit_counts[author] += 1

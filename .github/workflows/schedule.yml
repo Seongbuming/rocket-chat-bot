@@ -28,4 +28,4 @@ jobs:
         ROCKET_CHAT_INSTANCE: ${{ secrets.ROCKET_CHAT_INSTANCE }}
         USERNAME: ${{ secrets.USERNAME }}
         PASSWORD: ${{ secrets.PASSWORD }}
-      run: python main.py
+      run: python main.py --send
