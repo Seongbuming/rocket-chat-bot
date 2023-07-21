@@ -1,8 +1,8 @@
-name: Schedule Workflow
+name: Update
 
 on:
   schedule:
-    - cron: '0 21 * * 0'  # Monday AM6 KST
+    - cron: '*/10 * * * *'  # Every 10 minutes
   workflow_dispatch:
 
 jobs:
@@ -16,7 +16,7 @@ jobs:
     - name: Set up Python
       uses: actions/setup-python@v2
       with:
-        python-version: '3.x'
+        python-version: 3.9
 
     - name: Install dependencies
       run: |
@@ -28,4 +28,5 @@ jobs:
         ROCKET_CHAT_INSTANCE: ${{ secrets.ROCKET_CHAT_INSTANCE }}
         USERNAME: ${{ secrets.USERNAME }}
         PASSWORD: ${{ secrets.PASSWORD }}
-      run: python main.py --send
+        USER_MAPPING: ${{ secrets.USER_MAPPING }}
+      run: python main.py --update
