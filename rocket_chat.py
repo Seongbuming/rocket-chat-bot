@@ -50,7 +50,7 @@ class RocketChat:
         else:
             print("Failed to get groups!")
 
-    def get_latest_messages_from_group(self, room_id, count=10):
+    def get_latest_messages_from_group(self, room_id, count=20):
         response = self.request("GET", f"/api/v1/groups.messages?roomId={room_id}&count={count}")
         if response.status_code == 200:
             data = response.json()

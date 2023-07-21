@@ -5,17 +5,20 @@ from rocket_chat import RocketChat
 from commit_targets import CommitTargets
 from github_api import GitHubAPI
 
-def send(rocket_chat: RocketChat):
-    commit_targets = CommitTargets(rocket_chat)
+REPOSITORIES = ["augemented-analysis-for-industrial-data", "ETRI-signal_system_optimization_model_analysis"]
+USER_MAPPING = json.loads(os.getenv("USER_MAPPING"))
+
+def send(rocket_chat: RocketChat, github: GitHubAPI):
+    commit_targets = CommitTargets(rocket_chat, github, REPOSITORIES, USER_MAPPING)
     group_id = rocket_chat.get_group_id("opensource")
     commit_targets.check_last_week_commits(group_id)
     commit_targets.send_commit_targets_message(group_id)
 
 def update(rocket_chat: RocketChat, github: GitHubAPI):
-    commit_targets = CommitTargets(rocket_chat, json.loads(os.getenv("USER_MAPPING")))
+    commit_targets = CommitTargets(rocket_chat, github, REPOSITORIES, USER_MAPPING)
     group_id = rocket_chat.get_group_id("opensource")
     commit_targets.check_last_week_commits(group_id)
-    commit_targets.update_commit_targets_message(group_id, github)
+    commit_targets.update_commit_targets_message(group_id)
 
 if __name__ == "__main__":
     rocket_chat = RocketChat(
@@ -32,7 +35,7 @@ if __name__ == "__main__":
     args = parser.parse_args()
 
     if args.send:
-        send(rocket_chat)
+        send(rocket_chat, github)
     elif args.update:
         update(rocket_chat, github)
     else:
