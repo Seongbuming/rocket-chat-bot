@@ -21,7 +21,7 @@ class CommitTargets:
         for username, (_, _, completed, total) in commit_data.items():
             message += f"@{username} : {completed}/{total}\n"
         
-        message += "10분마다 자동으로 갱신됩니다."
+        message += "1시간마다 자동으로 갱신됩니다."
 
         return message
 
