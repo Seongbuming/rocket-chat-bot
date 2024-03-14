@@ -101,7 +101,7 @@ class CommitTargets:
             total = int(total)
 
             if completed < total:
-                commit_data[username] = [completed, total, 0, total * 2]
+                commit_data[username] = [completed, total, 0, total + 2]
             else:
                 commit_data[username] = [completed, total, 0, 5]
 
