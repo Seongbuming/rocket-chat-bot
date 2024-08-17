@@ -4,8 +4,7 @@ import json
 from rocket_chat import RocketChat
 from commit_targets import CommitTargets
 from github_api import GitHubAPI
-
-REPOSITORIES = ["augemented-analysis-for-industrial-data", "ETRI-signal_system_optimization_model_analysis"]
+REPOSITORIES = json.loads(os.getenv("REPOSITORIES"))
 USER_MAPPING = json.loads(os.getenv("USER_MAPPING"))
 
 def send(rocket_chat: RocketChat, github: GitHubAPI):

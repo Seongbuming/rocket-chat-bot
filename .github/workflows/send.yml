@@ -28,5 +28,6 @@ jobs:
         ROCKET_CHAT_INSTANCE: ${{ secrets.ROCKET_CHAT_INSTANCE }}
         USERNAME: ${{ secrets.USERNAME }}
         PASSWORD: ${{ secrets.PASSWORD }}
+        REPOSITORIES: ${{ secrets.REPOSITORIES }}
         USER_MAPPING: ${{ secrets.USER_MAPPING }}
       run: python main.py --send
