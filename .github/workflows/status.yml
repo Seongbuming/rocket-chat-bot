@@ -13,6 +13,13 @@ jobs:
     - name: Checkout code
       uses: actions/checkout@v2
 
+    - name: Download previous status artifact
+      id: download_status
+      uses: actions/download-artifact@v3
+      with:
+        name: server-status
+        path: .
+
     - name: Set up Python
       uses: actions/setup-python@v2
       with:
@@ -31,3 +38,10 @@ jobs:
         REPOSITORIES: ${{ secrets.REPOSITORIES }}
         USER_MAPPING: ${{ secrets.USER_MAPPING }}
       run: python main.py --status
+
+    - name: Upload status artifact
+      if: always()
+      uses: actions/upload-artifact@v3
+      with:
+        name: server-status
+        path: status.txt
