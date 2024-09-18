@@ -6,7 +6,7 @@ on:
   workflow_dispatch:
 
 jobs:
-  check-commit-targets:
+  server-status:
     runs-on: ubuntu-latest
 
     steps:
