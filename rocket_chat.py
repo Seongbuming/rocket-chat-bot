@@ -13,7 +13,6 @@ class RocketChat:
         self.user_id = None
 
         urllib3.disable_warnings(urllib3.exceptions.InsecureRequestWarning)
-        self.login()
 
     def request(self, method, endpoint, payload=None) -> requests.Response:
         url = f"https://{self.base_url}{endpoint}"

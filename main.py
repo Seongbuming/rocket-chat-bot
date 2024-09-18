@@ -10,23 +10,31 @@ REPOSITORIES = json.loads(os.getenv("REPOSITORIES"))
 USER_MAPPING = json.loads(os.getenv("USER_MAPPING"))
 
 def send(rocket_chat: RocketChat, github: GitHubAPI):
+    rocket_chat.login()
     commit_targets = CommitTargets(rocket_chat, github, REPOSITORIES, USER_MAPPING)
     group_id = rocket_chat.get_group_id("opensource")
     commit_targets.check_last_week_commits(group_id)
     commit_targets.send_commit_targets_message(group_id)
 
 def update(rocket_chat: RocketChat, github: GitHubAPI):
+    rocket_chat.login()
     commit_targets = CommitTargets(rocket_chat, github, REPOSITORIES, USER_MAPPING)
     group_id = rocket_chat.get_group_id("opensource")
     commit_targets.check_last_week_commits(group_id)
     commit_targets.update_commit_targets_message(group_id)
 
 def status(rocket_chat: RocketChat):
-    group_id_general = rocket_chat.get_group_id("general")
-    group_id_opensource = rocket_chat.get_group_id("opensource")
-    server_status = ServerStatus(rocket_chat)
-    server_status.send_status_change(group_id_general)
-    server_status.send_status_change(group_id_opensource)
+    try:
+        rocket_chat.login()
+        group_id_general = rocket_chat.get_group_id("general")
+        group_id_opensource = rocket_chat.get_group_id("opensource")
+        server_status = ServerStatus(rocket_chat)
+        server_status.send_status_change(group_id_general)
+        server_status.send_status_change(group_id_opensource)
+    except Exception:
+        server_status = ServerStatus(rocket_chat)
+        server_status.save_current_status("down")
+        print("VISLAB Rocket.Chat is still down.")
 
 if __name__ == "__main__":
     rocket_chat = RocketChat(
