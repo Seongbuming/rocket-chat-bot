@@ -21,6 +21,16 @@ jobs:
         path: .
       continue-on-error: true
 
+    - name: Display previous status
+      if: success()
+      run: |
+        if [ -f server_status.txt ]; then
+          echo "Previous status:"
+          cat server_status.txt
+        else
+          echo "No previous status found."
+        fi
+
     - name: Set up Python
       uses: actions/setup-python@v2
       with:
@@ -45,4 +55,4 @@ jobs:
       uses: actions/upload-artifact@v3
       with:
         name: server-status
-        path: status.txt
+        path: server_status.txt
