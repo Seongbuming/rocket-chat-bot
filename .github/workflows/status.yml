@@ -13,12 +13,20 @@ jobs:
     - name: Checkout code
       uses: actions/checkout@v2
 
+    # - name: Download previous status artifact
+    #   id: download_status
+    #   uses: actions/download-artifact@v3
+    #   with:
+    #     name: server-status
+    #     path: .
+    #   continue-on-error: true
+
     - name: Download previous status artifact
-      id: download_status
-      uses: actions/download-artifact@v3
+      uses: dawidd6/action-download-artifact@v2
       with:
+        workflow: status.yml
+        workflow_conclusion: success
         name: server-status
-        path: .
       continue-on-error: true
 
     - name: Display previous status
