@@ -26,10 +26,8 @@ def update(rocket_chat: RocketChat, github: GitHubAPI):
 def status(rocket_chat: RocketChat):
     try:
         rocket_chat.login()
-        group_id_general = rocket_chat.get_group_id("general")
         group_id_opensource = rocket_chat.get_group_id("opensource")
         server_status = ServerStatus(rocket_chat)
-        server_status.send_status_change(group_id_general)
         server_status.send_status_change(group_id_opensource)
     except Exception:
         server_status = ServerStatus(rocket_chat)
